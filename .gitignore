@@ -1,0 +1,14 @@
+# bloop and metals
+.bloop
+.bsp
+.metals
+
+# vs code
+.vscode
+
+# sbt
+project/
+target/
+
+# scala-build
+.scala-build
