@@ -10,14 +10,17 @@ class Permutations(wordLength: Int):
     // Generate all possible permutations of the given word length.
     def generatePermutations(wordLength: Int): Vector[String] =
         def inner(start: String, i: Int): Seq[String] =
-        if (i == wordLength) then
-            Vector("g", "y", " ").map(start + _)
-        else
-            Vector("g", "y", " ").flatMap(l => inner(start + l, i + 1))
+            if (i == wordLength) then
+                Vector("g", "y", " ").map(start + _)
+            else
+                Vector("g", "y", " ").flatMap(l => inner(start + l, i + 1))
         inner("", 1).toVector
 
     // Filter the permutationSet based on the provided criteria for green, yellow, and blank positions.
-    def minimizePermutations(word: String, indexOfGreens: Map[Int, Set[Char]], indexOfYellows: Map[Int, Set[Char]], indexOfBlanks: Map[Int, Set[Char]]): Vector[String] =
+    def minimizePermutations(word: String, filter: WordFilter): Vector[String] =
+        val indexOfGreens = filter.indexOfGreens
+        val indexOfYellows = filter.indexOfYellows
+        val indexOfBlanks = filter.indexOfBlanks
         var perm = permutationSet
         perm = perm.filter(p =>
             indexOfGreens.forall((index, charSet) =>

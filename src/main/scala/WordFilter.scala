@@ -44,7 +44,7 @@ class WordFilter:
 				}
 			}
 		}
-		filteredWords
+		return filteredWords
 
 	// Update the maps of green, yellow, and blank positions based on the provided colors and guess.
 	def updateColorIndexes(colors: String, guess: String): Unit =

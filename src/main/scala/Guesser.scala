@@ -21,12 +21,12 @@ class Guesser(lang: String, wordLength: Int):
             val perm =
                 if (wordFilter.isEmpty)
                     then permutations.permutationSet
-                    else permutations.minimizePermutations(current_word, wordFilter.indexOfGreens, wordFilter.indexOfYellows, wordFilter.indexOfBlanks).toVector
+                    else permutations.minimizePermutations(current_word, wordFilter).toVector
 
             // Iterate through the permutations to compute the sizes of matching words
             var i = 0
-            for p <- perm do
-                val currentSize = wordFilter.filterWords(answerList, current_word, p).length
+            while i < perm.size do
+                val currentSize = wordFilter.filterWords(answerList, current_word, perm(i)).length
                 if currentSize != 0 then
                     // Store sizes of matching words for the current word
                     sizes(current_word) = sizes.get(current_word) match
@@ -36,7 +36,7 @@ class Guesser(lang: String, wordLength: Int):
 
             // Find the maximum candidate size for the current word
             val candidateSize =
-                if sizes.contains(current_word) then sizes(current_word).max
+                if sizes.keySet.contains(current_word) then sizes(current_word).max
                 else Int.MaxValue
 
             // If the word is a single candidate and exists in the answer list, return it as the best guess
