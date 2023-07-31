@@ -11,9 +11,9 @@ class Permutations(wordLength: Int):
     def generatePermutations(wordLength: Int): Vector[String] =
         def inner(start: String, i: Int): Seq[String] =
             if (i == wordLength) then
-                Vector("g", "y", " ").map(start + _)
+                Vector("g", "y", "b").map(start + _)
             else
-                Vector("g", "y", " ").flatMap(l => inner(start + l, i + 1))
+                Vector("g", "y", "b").flatMap(l => inner(start + l, i + 1))
         inner("", 1).toVector
 
     // Filter the permutationSet based on the provided criteria for green, yellow, and blank positions.
@@ -28,6 +28,6 @@ class Permutations(wordLength: Int):
             && indexOfYellows.forall((index, charSet) =>
                 charSet.forall(char => (word(index) != char) || (p(index) != 'g' && word(index) == char)))
             && indexOfBlanks.forall((index, charSet) =>
-                charSet.forall(char => word(index) != char || (word(index) == char && p(index) == ' ') )))
-        perm.filter(permutation => word.forall(char => !indexOfBlanks.values.toList.flatten.toSet.contains(char) || (getAllIndices(word, char).forall(index => permutation(index) == ' ') || (indexOfGreens.values.toList.flatten.contains(char) || indexOfYellows.values.toList.flatten.contains(char) ))))
+                charSet.forall(char => word(index) != char || (word(index) == char && p(index) == 'b') )))
+        perm.filter(permutation => word.forall(char => !indexOfBlanks.values.toList.flatten.toSet.contains(char) || (getAllIndices(word, char).forall(index => permutation(index) == 'b') || (indexOfGreens.values.toList.flatten.contains(char) || indexOfYellows.values.toList.flatten.contains(char) ))))
 

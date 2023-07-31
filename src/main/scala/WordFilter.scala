@@ -11,7 +11,7 @@ class WordFilter:
 		// Update the maps containing indices of green, yellow, and blank positions.
 		val _indexOfGreens = merge(indexOfGreens, c.filter(_._1 == 'g').map(x => x._2 -> Set(guess(x._2))).toMap)
 		val _indexOfYellows = merge(indexOfYellows, c.filter(_._1 == 'y').map(x => x._2 -> Set(guess(x._2))).toMap)
-		val _indexOfBlanks = merge(indexOfBlanks, c.filter(_._1 == ' ').map(x => x._2 -> Set(guess(x._2))).toMap)
+		val _indexOfBlanks = merge(indexOfBlanks, c.filter(_._1 == 'b').map(x => x._2 -> Set(guess(x._2))).toMap)
 
 		// Start with the complete list of words and filter it step by step.
 		var filteredWords = words
@@ -51,11 +51,15 @@ class WordFilter:
 		val c = colors.toList.zipWithIndex
 		indexOfGreens = merge(indexOfGreens, c.filter(_._1 == 'g').map(x => x._2 -> Set(guess(x._2))).toMap)
 		indexOfYellows = merge(indexOfYellows, c.filter(_._1 == 'y').map(x => x._2 -> Set(guess(x._2))).toMap)
-		indexOfBlanks = merge(indexOfBlanks, c.filter(_._1 == ' ').map(x => x._2 -> Set(guess(x._2))).toMap)
+		indexOfBlanks = merge(indexOfBlanks, c.filter(_._1 == 'b').map(x => x._2 -> Set(guess(x._2))).toMap)
 
 	// Check if the WordFilter has no information stored (no greens, yellows, or blanks).
 	def isEmpty: Boolean =
 		indexOfGreens.isEmpty && indexOfYellows.isEmpty && indexOfBlanks.isEmpty
+
+	// Get all indices in a string.
+	def indices: String =
+		return s"Greens: ${indexOfGreens.mkString(", ")} \nYellows: ${indexOfYellows.mkString(", ")} \nBlanks: ${indexOfBlanks.mkString(", ")} \n"
 
 	// Merge two maps containing sets of characters based on the same index.
 	private def merge(m1: Map[Int, Set[Char]], m2: Map[Int, Set[Char]]): Map[Int, Set[Char]] =
