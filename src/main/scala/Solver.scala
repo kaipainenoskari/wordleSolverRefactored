@@ -88,7 +88,7 @@ class Solver:
     // Read the colors from the user and validate the input
     private def readColors(wordLength: Int): String =
         var colors = readLine("colors\n").toLowerCase()
-        while colors.length != wordLength && !colors.forall(c => c == 'g' || c == 'y' || c == 'b') do
+        while colors.length != wordLength || !colors.forall(c => c == 'g' || c == 'y' || c == 'b') do
             println("Incorrect input...")
             colors = readLine("colors\n").toLowerCase()
         colors

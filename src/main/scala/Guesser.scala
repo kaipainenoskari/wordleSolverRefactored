@@ -1,3 +1,5 @@
+//import me.tongfei.progressbar._
+
 class Guesser(lang: String, wordLength: Int):
     private val permutations = new Permutations(wordLength)
 
@@ -7,26 +9,38 @@ class Guesser(lang: String, wordLength: Int):
         var sizeAverages = scala.collection.mutable.Map[String, Double]()
         var validWords = validWordList
         val startSize = validWords.length.toDouble
+        //val progressBar = new ProgressBar(max = startSize)
+        var wordfilterTime = 0L
+        var permutationTime = 0L
+        var everythingElse = System.nanoTime()
+        var printTime = 0L
 
         // Loop through the list of valid words and compute their sizes
         while validWords.nonEmpty do
+            val p1 = System.nanoTime()
             val current_word = validWords.head
             val sizeNow = validWords.length
-            val percent = math.ceil(((startSize - sizeNow) / startSize) * 100).toInt
+            val percent = math.ceil(((startSize - sizeNow) / startSize) * 100).round.toInt
             val progress = "#" * percent
             val toRun = "-" * (100 - percent)
             print("\r[%s%s] %d %%".format(progress, toRun, percent))
+            //progressBar.update(sizeNow)
+            printTime += System.nanoTime() - p1
 
+            val t1 = System.nanoTime()
             // Generate permutations for the current word based on word filters
             val perm =
                 if (wordFilter.isEmpty)
                     then permutations.permutationSet
                     else permutations.minimizePermutations(current_word, wordFilter).toVector
+            permutationTime += System.nanoTime() - t1
 
             // Iterate through the permutations to compute the sizes of matching words
             var i = 0
             while i < perm.size do
+                val t1 = System.nanoTime()
                 val currentSize = wordFilter.filterWords(answerList, current_word, perm(i)).length
+                wordfilterTime += System.nanoTime() - t1
                 if currentSize != 0 then
                     // Store sizes of matching words for the current word
                     sizes(current_word) = sizes.get(current_word) match
@@ -46,6 +60,7 @@ class Guesser(lang: String, wordLength: Int):
             // Compute the average size for the current word and store it in the sizeAverages map
             sizeAverages += current_word -> sizes(current_word).sum / sizes(current_word).length.toDouble
             validWords = validWords.tail
+        //printTime -= wordfilterTime + permutationTime
 
         // Process the sizeAverages map to find the top 10 best guesses based on certain criteria
         val topGuesses = sizeAverages.toVector
@@ -55,5 +70,12 @@ class Guesser(lang: String, wordLength: Int):
             .sortBy(_._2)
             .take(10)
             .map((word, average) => (word, (average * 100).round / 100.0))
+        everythingElse = System.nanoTime() - everythingElse - wordfilterTime - permutationTime - printTime
             
+        println(s"\nFilter: ${(wordfilterTime / 1e9d).round}s")
+        println(s"Permutations: ${(permutationTime / 1e9d).round}s")
+        println(s"Printing : ${(printTime / 1e9d).round}s")
+        println(s"Everything else: ${(everythingElse / 1e9d).round}s")
+        println(s"Summed: ${((wordfilterTime + permutationTime + everythingElse + printTime) / 1e9d).round}s")
+        //progressBar.close()
         topGuesses.mkString(", ")
