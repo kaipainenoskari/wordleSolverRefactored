@@ -5,7 +5,7 @@ class WordFilter:
 	var indexOfBlanks = Map[Int, Set[Char]]()
 
 	// Filter the given sequence of words based on the provided guess and colors.
-	def filterWords(words: Seq[String], guess: String, colors: String): Seq[String] =
+	def filterWords(words: Vector[String], guess: String, colors: String): Vector[String] =
 		// Extract indices of green, yellow, and blank positions from the colors string.
 		val c = colors.toList.zipWithIndex
 		// Update the maps containing indices of green, yellow, and blank positions.

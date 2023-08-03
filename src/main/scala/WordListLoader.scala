@@ -17,6 +17,14 @@ class WordListLoader(lang: String, wordLength: Int):
 			)
 		
 		rand.shuffle(ret.filter(word => word.length == wordLength))
+	
+	def generateNumble(wordLength: Int): Vector[String] =
+		def inner(start: String, i: Int): Seq[String] =
+			if (i == wordLength) then
+				Vector("0", "1", "2", "3", "4", "5", "6", "7", "8", "9").map(start + _)
+			else
+				Vector("0", "1", "2", "3", "4", "5", "6", "7", "8", "9").flatMap(l => inner(start + l, i + 1))
+		inner("", 1).toVector
 
 	// TODO: figure out how to work with files
 	def loadAnswerList: Vector[String] =
@@ -24,7 +32,8 @@ class WordListLoader(lang: String, wordLength: Int):
 		val file = lang match
 			case "en" if wordLength == 5 => "wordle-answers-alphabetical.txt"
 			case "en" => "words_alpha.txt"
-			case _ => "kaikki-suomen-sanat.txt"
+			case "fi" => "kaikki-suomen-sanat.txt"
+			case _ => return generateNumble(wordLength)
 
 		loadWordListFromFile(path + file)
 

@@ -1,10 +1,10 @@
 //import me.tongfei.progressbar._
 
-class Guesser(lang: String, wordLength: Int):
+class Guesser(wordLength: Int):
     private val permutations = new Permutations(wordLength)
 
     // Method to find the best guess from the answer list based on a set of criteria
-    def bestGuess(answerList: Seq[String], validWordList: Vector[String], wordFilter: WordFilter): String =
+    def bestGuess(answerList: Vector[String], validWordList: Vector[String], wordFilter: WordFilter): String =
         var sizes = scala.collection.mutable.Map[String, Vector[Int]]()
         var sizeAverages = scala.collection.mutable.Map[String, Double]()
         var validWords = validWordList
@@ -39,7 +39,7 @@ class Guesser(lang: String, wordLength: Int):
             var i = 0
             while i < perm.size do
                 val t1 = System.nanoTime()
-                val currentSize = wordFilter.filterWords(answerList, current_word, perm(i)).length
+                val currentSize = wordFilter.filterWords(answerList, current_word, perm(i)).size
                 wordfilterTime += System.nanoTime() - t1
                 if currentSize != 0 then
                     // Store sizes of matching words for the current word

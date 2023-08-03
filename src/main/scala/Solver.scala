@@ -19,7 +19,7 @@ class Solver:
             wordLength = readWordLength()
             loadLists()
             wordFilter = new WordFilter()
-            bestGuessSolver = new Guesser(lang, wordLength)
+            bestGuessSolver = new Guesser(wordLength)
 
             var continueGame = true
             while continueGame do
@@ -46,7 +46,7 @@ class Solver:
                         continueGame = false
                     else
                         wordFilter.updateColorIndexes(colors, guess)
-                        val filteredWords = wordFilter.filterWords(answerList, guess, colors).toVector
+                        val filteredWords = wordFilter.filterWords(answerList, guess, colors)
                         updateAnswerList(filteredWords)
                         // Consider refactoring this block to reduce nesting
                         if answerList.size <= 10 then
@@ -70,7 +70,7 @@ class Solver:
     // Read the selected language from the user
     private def readLanguage(): String =
         var lang = readLine("Select language fi/en\n").toLowerCase()
-        while lang != "en" && lang != "fi" do
+        while lang != "en" && lang != "fi" && lang != "numble" do
             lang = readLine("Select language fi/en\n").toLowerCase()
         lang
 

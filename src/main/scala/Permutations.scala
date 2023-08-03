@@ -9,12 +9,15 @@ class Permutations(wordLength: Int):
 
     // Generate all possible permutations of the given word length.
     def generatePermutations(wordLength: Int): Vector[String] =
-        def inner(start: String, i: Int): Seq[String] =
+        val chars = Vector("g", "y", "b")
+        def inner(start: String, i: Int, acc: Vector[String]): Vector[String] =
             if (i == wordLength) then
-                Vector("g", "y", "b").map(start + _)
+                acc :+ start
             else
-                Vector("g", "y", "b").flatMap(l => inner(start + l, i + 1))
-        inner("", 1).toVector
+                chars.foldLeft(acc) { (result, digit) =>
+                    inner(start + digit, i + 1, result)
+                }
+        inner("", 0, Vector.empty)
 
     // Filter the permutationSet based on the provided criteria for green, yellow, and blank positions.
     def minimizePermutations(word: String, filter: WordFilter): Vector[String] =
