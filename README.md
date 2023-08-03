@@ -1,6 +1,6 @@
 ## wordleSolverRefactored
 
-Refactored code of former [wordleSolver project.](https://github.com/kaipainenoskari/wordleSolver "Wordle solver") N̶o̶t̶ ̶a̶s̶ ̶f̶a̶s̶t̶ ̶y̶e̶t̶.
+Refactored code of former [wordleSolver project.](https://github.com/kaipainenoskari/wordleSolver "Wordle solver") ̷N̷o̷t̷  a̷s̷  f̷a̷s̷t̷  y̷e̷t̷. Just as fast.
 
 Hobbyproject created to solve wordle and sanuli as efficiently and fast as possible.
 
