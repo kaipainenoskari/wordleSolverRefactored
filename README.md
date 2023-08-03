@@ -30,7 +30,7 @@ Example run on word PARTY
 
 This is a normal sbt project. You can compile code with `sbt compile`, run it with `sbt run`, and `sbt console` will start a Scala 3 REPL.
 
-Compiling with scala-cli will get you x4 faster results.
+**Compiling with scala-cli will get you x4 faster results.**
 https://scala-cli.virtuslab.org/
 
 For more information on the sbt-dotty plugin, see the
