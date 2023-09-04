@@ -7,6 +7,7 @@ class Solver:
     private var newGame = true
     private var lang: String = _
     private var wordLength: Int = _
+    private var hardMode: Boolean = _
     private var answerList: Vector[String] = _
     private var validWordList: Vector[String] = _
     private var wordFilter: WordFilter = _
@@ -17,6 +18,7 @@ class Solver:
         while newGame do
             lang = readLanguage()
             wordLength = readWordLength()
+            hardMode = readHardMode()
             loadLists()
             wordFilter = new WordFilter()
             bestGuessSolver = new Guesser(wordLength)
@@ -37,7 +39,10 @@ class Solver:
                         // Measure the time it takes to find the best guess and print it
                         val t1 = System.nanoTime()
                         println("Running...")
-                        println("\n" + bestGuessSolver.bestGuess(answerList, validWordList, wordFilter))
+                        if hardMode then
+                            println("\n" + bestGuessSolver.bestGuess(answerList, answerList, wordFilter))
+                        else
+                            println("\n" + bestGuessSolver.bestGuess(answerList, validWordList, wordFilter))
                         val duration = ((System.nanoTime() - t1) / 1e9d).round
                         println(s"Duration $duration seconds")
                 else if guess.length == wordLength && !guess.contains(' ') then
@@ -72,18 +77,26 @@ class Solver:
         var lang = readLine("Select language fi/en\n").toLowerCase()
         while lang != "en" && lang != "fi" && lang != "numble" do
             lang = readLine("Select language fi/en\n").toLowerCase()
-        lang
+        return lang
 
     // Read the word length from the user
     private def readWordLength(): Int =
         var lengthString = readLine("Select length\n")
         while !lengthString.forall(_.isDigit) do
             lengthString = readLine("Select length\n")
-        lengthString.toInt
+        return lengthString.toInt
+
+    // Read the hard mode input
+    private def readHardMode(): Boolean =
+        var hardMode = readLine("Hard Mode? (y/n)\n")
+        while hardMode != "y" && hardMode != "n" do
+            hardMode = readLine("Hard Mode? (y/n)\n")
+        return hardMode == "y"
+        
 
     // Read the player's guess from the user
     private def readGuess(): String =
-        readLine("guess\n")
+        return readLine("guess\n")
 
     // Read the colors from the user and validate the input
     private def readColors(wordLength: Int): String =
