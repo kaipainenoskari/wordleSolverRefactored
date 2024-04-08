@@ -28,7 +28,7 @@ class WordListLoader(lang: String, wordLength: Int):
 
 	// TODO: figure out how to work with files
 	def loadAnswerList: Vector[String] =
-		val path = "C:/Users/oskar/wordlesolverrefactored/utils/"
+		val path = "utils/"
 		val file = lang match
 			case "en" if wordLength == 5 => "wordle-answers-alphabetical.txt"
 			case "en" => "words_alpha.txt"
@@ -38,7 +38,7 @@ class WordListLoader(lang: String, wordLength: Int):
 		loadWordListFromFile(path + file)
 
 	def loadValidWords: Vector[String] =
-		val path = "C:/Users/oskar/wordlesolverrefactored/utils/"
+		val path = "utils/"
 		val file = lang match
 			case "en" if wordLength == 5 => "valid-wordle-words.txt"
 			case "en" => "words_alpha.txt"
